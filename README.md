@@ -4,16 +4,24 @@ This project is still unde devlopment and some parts will probably be changed in
 
 The directory structure need for this is having:
 ```.
-├── alias       <- Directory
-├── functions   <- Directory
-├── load.sh     <- Autoloader File
-├── post        <- Post script file
-├── pre         <- Pre script file
-├── prompt      <- Directory
-└── vars        <- Directory```
+├── alias         <- Directory
+├── functions     <- Directory
+├── autoloader.sh <- Autoloader File
+├── post          <- Post script file
+├── pre           <- Pre script file
+├── prompt        <- Directory
+└── vars          <- Directory
+```
 
 Under alias and vars you need to create files like this:
 Filename == Alias/Variable Name
 Content  == Alias/Variable Content
 
 Functions will contain also some the some structure, the function name should be the same as the file name
+
+The .bashrc file should look like this:
+```
+export AUTOLOAD_WORKINGDIR="$HOME/bash.d"
+
+source $AUTOLOAD_WORKINGDIR/autoloader.sh
+```
