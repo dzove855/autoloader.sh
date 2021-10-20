@@ -86,14 +86,13 @@ loadVars && loadFunction && loadAlias
 [[ -f "${AUTOLOAD_WORKINGDIR%/}/post" ]] && source "${AUTOLOAD_WORKINGDIR%/}/post"
 
 # set prompt correctly
+# We should verify it more and set a default basic prompt
 if [[ -f "${AUTOLOAD_WORKINGDIR%/}/prompt/$HOSTNAME" ]]; then
-    ps1File="${AUTOLOAD_WORKINGDIR%/}/prompt/$HOSTNAME"
-else
-    ps1File="${AUTOLOAD_WORKINGDIR%/}/prompt/default"
+    : "${AUTOLOAD_WORKINGDIR%/}/prompt/$HOSTNAME"
+elif [[ -f "${AUTOLOAD_WORKINGDIR%/}/prompt/default" ]]; then
+    : "${AUTOLOAD_WORKINGDIR%/}/prompt/default"
 fi
-
-[[ -s "$ps1File" ]] && { unset tmpPS1; tmpPS1="$(<$ps1File)"; PS1="${tmpPS1%$'\n'} "; }
-
-unset tmpPS1 ps1File
+PS1="$(<$_)"
+export PS1="${PS1%$'\n'} "
 }
 unset _run
