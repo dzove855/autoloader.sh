@@ -20,11 +20,13 @@ _load(){
     for file in "${AUTOLOAD_WORKINGDIR%/}/$_dir/$pattern"*; do
         [[ -s "$file" ]] && {
             case "$_dir" in
-                alias)  alias ${file##*/}="$(<$file)"           ;;
-                func*)  source "$file"                          ;;
+                alias)  alias ${file##*/}="$(<$file)"                           ;;
+                func*)  source "$file"                                          ;;
                 ### We should remove eval, but currently i don't know how to expand variables inside of file, to keep it correct
-                vars)   declare -g "${file##*/}"="$(eval "printf '%s' \"$(<$file)\"")"   ;;
-                *)      return 1                        ;;
+                #vars)   declare -g "${file##*/}"="$(eval "printf '%s' \"$(<$file)\"")"   ;;
+                # This is still better then eval
+                vars) source <(printf '%s' "export ${file##*/}=\"$(<$file)\"")  ;;
+                *)      return 1                                                ;;
             esac
         }
     done
